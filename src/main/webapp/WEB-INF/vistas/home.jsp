@@ -1,3 +1,5 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,8 +10,17 @@
 	</head>
 	<body>
 		<div class = "container">
-			<h1>Bienvenidos a Taller Web 1</h1>
+			<h1>Bienvenidos a tu itinerario de viaje</h1>
 		</div>
+		
+		<div >
+			<h2>Por favor ingresa tu presupuesto para el viaje</h2>
+		</div>
+		
+		<form:form action="presupuesto" method="POST" modelAttribute="usuario">
+		<form:input path="presupuesto" id="presupuesto" class="form-control" />
+		<button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Cargar presupuesto </button>
+		</form:form>
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ></script>
 		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>

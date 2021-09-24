@@ -7,8 +7,10 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
 import ar.edu.unlam.tallerweb1.enumeradores.TipoDeDestino;
+import ar.edu.unlam.tallerweb1.enumeradores.TipoDeEquipaje;
 import ar.edu.unlam.tallerweb1.enumeradores.TipoDeTransporte;
 import ar.edu.unlam.tallerweb1.modelo.Destinos;
+import ar.edu.unlam.tallerweb1.modelo.Estadia;
 import ar.edu.unlam.tallerweb1.modelo.Itinerario;
 
 public class ServicioItinerarioTest {
@@ -18,7 +20,7 @@ public class ServicioItinerarioTest {
 	@Test///////////////////////////////////////////////////////////////////////////////////////////////
 	public void queSePuedaCrearUndestino() {
 		givenQueNoExistaUnDestino();
-		whenGenerarDestino("Bariloche", 1600, 7, TipoDeDestino.MONTAÑA);
+		whenGenerarDestino("Bariloche", 1600, TipoDeDestino.MONTAÑA);
 		thenQueExistaUnRegistro("Bariloche");
 	}
 	
@@ -26,8 +28,8 @@ public class ServicioItinerarioTest {
 		assertThat(itinerario1.buscarRegistro(nombre)).isNotNull();
 	}
 
-	private void whenGenerarDestino(String nombre, Integer distancia, Integer dias, TipoDeDestino tipo) {
-		itinerario1.agregarDestino(nombre, distancia, dias, tipo);
+	private void whenGenerarDestino(String nombre, Integer distancia, TipoDeDestino tipo) {
+		itinerario1.agregarDestino(nombre, tipo);
 	}
 
 	private void givenQueNoExistaUnDestino() {
@@ -35,7 +37,7 @@ public class ServicioItinerarioTest {
 
 	@Test///////////////////////////////////////////////////////////////////////////////////////////////
 	public void queSePuedaBuscarUnDestino() {
-		givenPosibleDestino("Bariloche", 1600, 7, TipoDeDestino.MONTAÑA);
+		givenPosibleDestino("Bariloche", TipoDeDestino.MONTAÑA);
 		Destinos destinoEncontrado= whenBuscarDestino("Bariloche");
 		thenRegistroEncontrado(destinoEncontrado, "Bariloche");
 	}
@@ -44,8 +46,8 @@ public class ServicioItinerarioTest {
 		assertThat(destinoEncontrado.getNombre()).isEqualTo(nombre);
 	}
 
-	public void givenPosibleDestino(String nombre, Integer distancia, Integer dias, TipoDeDestino tipo) {
-		itinerario1.agregarDestino(nombre, distancia, dias, tipo);
+	public void givenPosibleDestino(String nombre, TipoDeDestino tipo) {
+		itinerario1.agregarDestino(nombre, tipo);
 	}
 
 	private Destinos whenBuscarDestino(String destino) {
@@ -54,20 +56,18 @@ public class ServicioItinerarioTest {
 	
 	@Test///////////////////////////////////////////////////////////////////////////////////////////////
 	public void queSePuedaSaberElPrecioDelViaje() {
-		givenPosibleDestino("Bariloche", 1600, 7, TipoDeDestino.MONTAÑA);
-		whenModoDeTransporte(TipoDeTransporte.AVION);
-		thenCostoDelViaje(168000);
+		givenPosibleDestino("Bariloche", TipoDeDestino.MONTAÑA);
+		whenParametros(TipoDeTransporte.AVION, 1600.0, 7 , TipoDeEquipaje.GRANDE);
+		thenCostoDelViaje(62000.0);
 	}
 
-	private void thenCostoDelViaje(Integer precioEstimado) {
-		assertThat(precioEstimado).isEqualTo(itinerario1.buscarRegistro("Bariloche").getPrecio()
-		*itinerario1.getDias()		
-				);
+	private void thenCostoDelViaje(Double precioEstimado) {
+		Estadia miEstadia = new Estadia("Los alamos", 4000.0);
+		assertThat(precioEstimado).isEqualTo(itinerario1.calcularPrecio("Bariloche", miEstadia));	
 	}
 
-	private void whenModoDeTransporte(TipoDeTransporte transporte) {
-		itinerario1.setTransporte(transporte);
-		itinerario1.buscarRegistro("Bariloche").calcularPrecio(transporte);;
+	private void whenParametros(TipoDeTransporte transporte, Double distancia, Integer dias, TipoDeEquipaje equipaje ) {
+		itinerario1.setParametros(transporte,distancia , dias, equipaje);
 	}
 	
 	
