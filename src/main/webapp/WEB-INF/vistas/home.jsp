@@ -17,7 +17,7 @@
 			<h2>Por favor ingresa tu presupuesto para el viaje</h2>
 		</div>
 		
-		<form:form action="presupuesto" method="POST" modelAttribute="usuario">
+		<form:form action="presupuesto" method="POST" modelAttribute="presupuesto">
 		<form:input path="presupuesto" id="presupuesto" class="form-control" />
 		<button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Cargar presupuesto </button>
 		</form:form>

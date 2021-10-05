@@ -24,9 +24,17 @@ public class Usuario {
 	private String password;
 	private String rol;
 	private Boolean activo = false;
-	private Float presupuesto;
+	private Double presupuesto;
+
 
 	public Usuario(){}
+	
+	public Usuario(String email, String password, Double monto){
+		this.email=email;
+		this.password=password;
+		this.presupuesto=monto;
+	}
+	
 	public Usuario(DatosRegistro datosRegistro) {
 		this.email = datosRegistro.getEmail();
 		this.password = datosRegistro.getClave();
@@ -70,4 +78,11 @@ public class Usuario {
     public void activar() {
 		activo = true;
     }
+    
+	public Double getPresupuesto() {
+		return presupuesto;
+	}
+	public void setPresupuesto(Double presupuesto) {
+		this.presupuesto = presupuesto;
+	}
 }

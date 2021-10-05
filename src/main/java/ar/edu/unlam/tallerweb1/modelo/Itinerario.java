@@ -18,14 +18,14 @@ public class Itinerario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Map<String, Destinos> destino = new HashMap<>(); 
+	private Map<Long, Destinos> destino = new HashMap<>(); 
 	private TipoDeTransporte transporte=null;
 	private Integer dias=0;
 	private Double distancia;
 	private TipoDeEquipaje equipaje;
 	private Double precioTotal;
-	
-	public void setParametros(TipoDeTransporte transporte,Double distancia, Integer dias, TipoDeEquipaje equipaje) {
+
+	public Itinerario(TipoDeTransporte transporte,Double distancia, Integer dias, TipoDeEquipaje equipaje) {
 		this.transporte=transporte;
 		this.distancia=distancia;
 		this.dias=dias;
@@ -33,15 +33,54 @@ public class Itinerario {
 		this.precioTotal=0.0;
 	}
 	
-	public void agregarDestino(String nombre, TipoDeDestino tipo) {
-		Destinos destino1 = new Destinos(nombre, tipo);
-		destino.put(nombre, destino1);
+	public Long getId() {
+		return id;
 	}
 
-	public Destinos buscarRegistro(String destino1) {
-		return destino.get(destino1);
+	public void setId(Long id) {
+		this.id = id;
 	}
 
+	public Map<Long, Destinos> getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Map<Long, Destinos> destino) {
+		this.destino = destino;
+	}
+
+	public Double getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(Double distancia) {
+		this.distancia = distancia;
+	}
+
+	public TipoDeEquipaje getEquipaje() {
+		return equipaje;
+	}
+
+	public void setEquipaje(TipoDeEquipaje equipaje) {
+		this.equipaje = equipaje;
+	}
+
+	public Double getPrecioTotal() {
+		return precioTotal;
+	}
+
+	public void setPrecioTotal(Double precioTotal) {
+		this.precioTotal = precioTotal;
+	}
+
+	public TipoDeTransporte getTransporte() {
+		return transporte;
+	}
+
+	public void setDias(Integer dias) {
+		this.dias = dias;
+	}
+	
 	public void setTransporte(TipoDeTransporte transporte2) {
 		this.transporte=transporte2;
 	}
@@ -50,49 +89,9 @@ public class Itinerario {
 		return dias;
 	}
 
-	public Double calcularPrecio(String destino1, Estadia miEstadia) {
-		Destinos miDestino = buscarRegistro(destino1);
+	public void sumarPrecio(Double monto) {
+		this.precioTotal += monto;
 		
-		precioTotal += calcularPrecioTransporte(transporte);
-		precioTotal += calcularPrecioEquipaje(equipaje);
-		precioTotal += miEstadia.getPrecioXNoche()*this.dias;
-		
-		return precioTotal;
-	}
-
-	private Double calcularPrecioTransporte(TipoDeTransporte transporte2) {
-		switch (transporte) {
-		case AVION:
-			return distancia*15;
-
-		case AUTO:
-			return distancia*13;
-
-		case BUS:
-			return distancia*10;
-
-		case MOTO:
-			return distancia*8;
-
-		default:
-			return 0.0;
-		}
-	}
-
-	private Double calcularPrecioEquipaje(TipoDeEquipaje equipaje2) {
-		switch (equipaje2) {
-		case DE_MANO:
-			return 5000.0;
-			
-		case CHICO:
-			return 8000.0;
-
-		case GRANDE:
-			return 10000.0;
-
-		default:
-			return 0.0;
-		}
 	}
 	
 }

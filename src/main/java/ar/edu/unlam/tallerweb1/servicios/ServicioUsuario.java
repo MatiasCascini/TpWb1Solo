@@ -30,4 +30,12 @@ public class ServicioUsuario {
     private boolean laClaveTieneLongitudIncorrecta(DatosRegistro datosRegistro) {
         return datosRegistro.getClave().length() < 8;
     }
+    
+    public Boolean descontarSaldoAlComprarUnPasaje(Double precio, Usuario usuario) {
+    	if(usuario.getPresupuesto()<precio)
+    		 throw new DemasiadoCaroException();
+    	usuario.setPresupuesto(usuario.getPresupuesto()-precio);
+    	tablaUsuario.Update(usuario);
+    	return true;
+    }
 }

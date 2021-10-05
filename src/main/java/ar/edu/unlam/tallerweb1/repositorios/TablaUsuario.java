@@ -27,4 +27,8 @@ public class TablaUsuario {
     public void reset(){
         this.tablaUsuario.clear();
     }
+
+	public void Update(Usuario usuario) {
+		this.tablaUsuario.replace(usuario.getEmail(), usuario);
+	}
 }
