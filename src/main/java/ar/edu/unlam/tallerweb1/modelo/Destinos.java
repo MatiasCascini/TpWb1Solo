@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,9 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import ar.edu.unlam.tallerweb1.enumeradores.TipoDeDestino;
-import ar.edu.unlam.tallerweb1.enumeradores.TipoDeTransporte;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Destinos {
@@ -20,11 +20,18 @@ public class Destinos {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre;
-	private TipoDeDestino tipo;
+	@ManyToOne
+	private TipoDeDestino tipoDeDestino;
+	@ManyToOne
+	private Estadia estadia;
+	@ManyToOne
+	private Excursiones excursiones;
+	
+	public Destinos() {}
 	
 	public Destinos(String nombre, TipoDeDestino tipo) {
 		this.nombre=nombre;
-		this.tipo=tipo;
+		this.tipoDeDestino=tipo;
 	}
 
 	public Long getId() {
@@ -44,11 +51,37 @@ public class Destinos {
 	}
 
 	public TipoDeDestino getTipo() {
-		return tipo;
+		return tipoDeDestino;
 	}
 
 	public void setTipo(TipoDeDestino tipo) {
-		this.tipo = tipo;
+		this.tipoDeDestino = tipo;
 	}
+
+	public TipoDeDestino getTipoDeDestino() {
+		return tipoDeDestino;
+	}
+
+	public void setTipoDeDestino(TipoDeDestino tipoDeDestino) {
+		this.tipoDeDestino = tipoDeDestino;
+	}
+
+	public Estadia getEstadia() {
+		return estadia;
+	}
+
+	public void setEstadia(Estadia estadia) {
+		this.estadia = estadia;
+	}
+
+	public Excursiones getExcursiones() {
+		return excursiones;
+	}
+
+	public void setExcursiones(Excursiones excursiones) {
+		this.excursiones = excursiones;
+	}
+	
+	
 		
 }

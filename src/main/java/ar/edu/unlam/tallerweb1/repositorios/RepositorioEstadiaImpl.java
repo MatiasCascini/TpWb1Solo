@@ -5,7 +5,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ar.edu.unlam.tallerweb1.controladores.DatosItinerario;
 import ar.edu.unlam.tallerweb1.modelo.Estadia;
+import ar.edu.unlam.tallerweb1.modelo.Itinerario;
 
 @Repository("repositorioEstadia")
 public class RepositorioEstadiaImpl implements RepositorioEstadia{
@@ -18,8 +20,8 @@ public class RepositorioEstadiaImpl implements RepositorioEstadia{
 	}
     
     @Override
-	public void guardar(Estadia itinerario) {
-		sessionFactory.getCurrentSession().save(itinerario);
+	public void guardar(Estadia estadia) {
+		sessionFactory.getCurrentSession().save(estadia);
 	}
 
 	@Override
@@ -32,5 +34,12 @@ public class RepositorioEstadiaImpl implements RepositorioEstadia{
 	@Override
 	public void modificar(Estadia estadia) {
 		sessionFactory.getCurrentSession().update(estadia);
+	}
+	
+	@Override
+	public Estadia buscar(DatosItinerario datosItinerario) {
+		return (Estadia) sessionFactory.getCurrentSession().createCriteria(Estadia.class)
+				.add(Restrictions.eq("nombreDestino", datosItinerario))
+				.uniqueResult();
 	}
 }

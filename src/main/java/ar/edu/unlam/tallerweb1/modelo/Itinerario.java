@@ -1,16 +1,14 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import ar.edu.unlam.tallerweb1.enumeradores.TipoDeDestino;
-import ar.edu.unlam.tallerweb1.enumeradores.TipoDeEquipaje;
-import ar.edu.unlam.tallerweb1.enumeradores.TipoDeTransporte;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Itinerario {
@@ -18,11 +16,18 @@ public class Itinerario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Map<Long, Destinos> destino = new HashMap<>(); 
+	@ManyToOne
 	private TipoDeTransporte transporte=null;
+	@ManyToOne
+	private TipoDeEquipaje equipaje=null;
+	@ManyToOne
+	private Destinos destinos;
 	private Integer dias=0;
 	private Double distancia;
-	private TipoDeEquipaje equipaje;
+	private String nombre;
+	
+//	private List<Itinerario> lista; 
+
 	private Double precioTotal;
 
 	public Itinerario(TipoDeTransporte transporte,Double distancia, Integer dias, TipoDeEquipaje equipaje) {
@@ -33,20 +38,15 @@ public class Itinerario {
 		this.precioTotal=0.0;
 	}
 	
+	public Itinerario() {
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Map<Long, Destinos> getDestino() {
-		return destino;
-	}
-
-	public void setDestino(Map<Long, Destinos> destino) {
-		this.destino = destino;
 	}
 
 	public Double getDistancia() {
@@ -93,5 +93,34 @@ public class Itinerario {
 		this.precioTotal += monto;
 		
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Destinos getDestinos() {
+		return destinos;
+	}
+
+	public void setDestinos(Destinos destinos) {
+		this.destinos = destinos;
+	}
+
+	
+	
+//	public List<Itinerario> getLista() {
+//		return lista;
+//	}
+//
+//	public void setDestino(List<Itinerario> lista) {
+//		this.lista = lista;
+//	}
+//	
+	
+	
 	
 }

@@ -1,22 +1,26 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
-import ar.edu.unlam.tallerweb1.controladores.ControladorRegistro;
 import ar.edu.unlam.tallerweb1.controladores.DatosRegistro;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import ar.edu.unlam.tallerweb1.repositorios.TablaUsuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 import org.junit.Before;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 public class ServicioUsuarioTest {
 
     private static final String EMAIL = "flor@gmail.com";
     private static final String CLAVE = "123456789";
     private static final String CLAVE_LONG_INCORRECTA = "1234";
-    private ServicioUsuario servicioUsuario = new ServicioUsuario();
+
+    private RepositorioUsuario repositorioUsuario;
+    private ServicioUsuarioImpl servicioUsuario;
 
     @Before
     public void init(){
-        TablaUsuario.getInstance().reset();
+        repositorioUsuario = mock(RepositorioUsuario.class);
+        servicioUsuario = new ServicioUsuarioImpl(repositorioUsuario);
     }
 
     @Test
@@ -43,6 +47,9 @@ public class ServicioUsuarioTest {
     @Test(expected = UsuarioYaExisteException.class)
     public void siElUsuarioExisteElRegistroFalla(){
         givenExisteUsuario(EMAIL, CLAVE);
+
+        when(repositorioUsuario.buscar(EMAIL)).thenReturn(new Usuario());
+
         Usuario usuarioRegistrado = whenRegistroUnUsuario(EMAIL, CLAVE, CLAVE);
         thenElRegistroFalla(usuarioRegistrado);
     }
@@ -76,5 +83,14 @@ public class ServicioUsuarioTest {
 
     private void thenElRegistroEsExitoso(Usuario usuarioRegistrado) {
         assertThat(usuarioRegistrado).isNotNull();
+        //times(1) indica la cantidad de veces que se deberia invocar el metodo
+        verify(repositorioUsuario, times(1)).guardar(usuarioRegistrado);
+
+        //verifica que se llama al repositorioUsuario.guardar(..), otra forma:
+        //verify(repositorioUsuario).guardar(usuarioRegistrado);
+
+
+
+
     }
 }

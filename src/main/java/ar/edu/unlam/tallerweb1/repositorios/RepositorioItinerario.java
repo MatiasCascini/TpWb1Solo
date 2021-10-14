@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import ar.edu.unlam.tallerweb1.controladores.DatosItinerario;
 import ar.edu.unlam.tallerweb1.modelo.Itinerario;
 
 public interface RepositorioItinerario {

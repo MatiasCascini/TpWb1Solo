@@ -5,6 +5,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ar.edu.unlam.tallerweb1.controladores.DatosItinerario;
 import ar.edu.unlam.tallerweb1.modelo.Destinos;
 
 @Repository("repositorioDestinos")
@@ -18,8 +19,8 @@ public class RepositorioDestinosImpl implements RepositorioDestinos{
 	}
     
     @Override
-	public void guardar(Destinos itinerario) {
-		sessionFactory.getCurrentSession().save(itinerario);
+	public void guardar(Destinos Destino) {
+		sessionFactory.getCurrentSession().save(Destino);
 	}
 
 	@Override
@@ -28,9 +29,23 @@ public class RepositorioDestinosImpl implements RepositorioDestinos{
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
 	}
+	
+	@Override
+	public Destinos buscarPorNombre(String nombre) {
+		return (Destinos) sessionFactory.getCurrentSession().createCriteria(Destinos.class)
+				.add(Restrictions.eq("nombre", nombre))
+				.uniqueResult();
+	}
+	
+	@Override
+	public Destinos buscarDestino(DatosItinerario datosItinerario) {
+		return (Destinos) sessionFactory.getCurrentSession().createCriteria(Destinos.class)
+				.add(Restrictions.eq("nombre", datosItinerario.getNombreDestino()))
+				.uniqueResult();
+	}
 
 	@Override
-	public void modificar(Destinos itinerario) {
-		sessionFactory.getCurrentSession().update(itinerario);
+	public void modificar(Destinos Destino) {
+		sessionFactory.getCurrentSession().update(Destino);
 	}
 }
